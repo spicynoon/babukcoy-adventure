@@ -101,7 +101,7 @@ int main(){
             koorCharX = koorCharX-1;
         }
         // Bergerak ke kanan
-        if (arrowKey == 72 && (map[koorCharY][koorCharX+1] == 1 || map[koorCharY][koorCharX+1] == 4) && koorCharY < panjangMap){
+        if (arrowKey == 77 && (map[koorCharY][koorCharX+1] == 1 || map[koorCharY][koorCharX+1] == 4) && koorCharY < panjangMap){
             koorCharX = koorCharX+1;
         }
 
