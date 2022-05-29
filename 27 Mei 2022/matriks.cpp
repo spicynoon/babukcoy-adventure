@@ -1,10 +1,19 @@
 #include <iostream>
+#include <conio.h>
 using namespace std;
 
 #define KEY_UP 72
 #define KEY_DOWN 80
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
+
+struct character_t
+{
+    string name;
+    string role;
+    int hp;
+};
+
 
 int main(){
     /*
@@ -21,7 +30,35 @@ int main(){
     MATRIKS LINGKUNGAN
     POSISI KARAKTER
     */
-    
+
+    character_t character[] = {
+        {
+            "Alu",
+            "Fighter",
+            1200
+        }, 
+        {
+            "Eudo",
+            "Mage",
+            800
+        },
+        {
+            "Mino",
+            "Tank",
+            1700
+        },
+        {
+            "Miya",
+            "Marksman",
+            1000
+        },
+        {
+            "Ling",
+            "Assassin",
+            900
+        },
+    };
+
     int panjangMap = 10;    //x
     int lebarMap = 10;      //y
     
@@ -67,7 +104,9 @@ int main(){
         if (arrowKey == 72 && (map[koorCharY][koorCharX+1] == 1 || map[koorCharY][koorCharX+1] == 4) && koorCharY < panjangMap){
             koorCharX = koorCharX+1;
         }
-        
+
+        // Random
+
         // Render
         for(int y=0; y<lebarMap; y++){
             for(int x=0; x<panjangMap; x++){
