@@ -1,7 +1,8 @@
 #include <iostream>
 #include <conio.h>
 #include <time.h>
-#include <stdlib.h> 
+#include <stdlib.h>
+#include <windows.h>
 using namespace std;
 
 #define KEY_UP 119
@@ -14,6 +15,7 @@ struct character_t
     string name;
     string role;
     int hp;
+    int damage;
 };
 
 struct item_t
@@ -24,6 +26,12 @@ struct item_t
     int attackBuffeffect;
 };
 
+void setcolor(unsigned short color)
+{
+HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
+
+SetConsoleTextAttribute(hCon,color);
+}
 
 int main(){
     /*
@@ -45,27 +53,32 @@ int main(){
         {
             "Alu",
             "Fighter",
-            1200
+            1200,
+            300
         }, 
         {
             "Eudo",
             "Mage",
-            800
+            800,
+            300
         },
         {
             "Mino",
             "Tank",
-            1700
+            1700,
+            300
         },
         {
             "Miya",
             "Marksman",
-            1000
+            1000,
+            300
         },
         {
             "Ling",
             "Assassin",
-            900
+            900,
+            300
         },
     };
 
@@ -108,6 +121,10 @@ int main(){
     int koorCharY = 0;
     int koorCharX = 0;
     
+    cout << "'mobile legend x pokemon' lite game" << endl;
+    setcolor(4);
+    cout << "ready to start !!" << endl;
+    setcolor(7);
     cout << "u spawn at (" << koorCharY << ", " << koorCharX << ")" << endl
     << "use w,a,s,d to move" << endl;
     
@@ -134,19 +151,35 @@ int main(){
         cout << endl;
         
         // Bergerak ke atas
-        if (arrowKey == 119 && (map[koorCharY-1][koorCharX] == 1 || map[koorCharY-1][koorCharX] == 4) && koorCharY >= 0){
+        if (arrowKey == 119 && (map[koorCharY-1][koorCharX] == 1 || 
+                                map[koorCharY-1][koorCharX] == 2 ||
+                                map[koorCharY-1][koorCharX] == 3 ||
+                                map[koorCharY-1][koorCharX] == 6
+                                ) && koorCharY >= 0){
             koorCharY = koorCharY-1;
         }
         // Bergerak ke bawah
-        if (arrowKey == 115 && (map[koorCharY+1][koorCharX] == 1 || map[koorCharY+1][koorCharX] == 4) && koorCharY < lebarMap){
+        if (arrowKey == 115 && (map[koorCharY+1][koorCharX] == 1 ||
+                                map[koorCharY+1][koorCharX] == 2 ||
+                                map[koorCharY+1][koorCharX] == 3 ||
+                                map[koorCharY+1][koorCharX] == 6
+                                ) && koorCharY < lebarMap){
             koorCharY = koorCharY+1;
         }
         // Bergerak ke kiri
-        if (arrowKey == 97 && (map[koorCharY][koorCharX-1] == 1 || map[koorCharY][koorCharX-1] == 4) && koorCharY >= 0){
+        if (arrowKey == 97 && (map[koorCharY][koorCharX-1] == 1 ||
+                               map[koorCharY][koorCharX-1] == 2 ||
+                               map[koorCharY][koorCharX-1] == 3 ||
+                               map[koorCharY][koorCharX-1] == 6
+                               ) && koorCharY >= 0){
             koorCharX = koorCharX-1;
         }
         // Bergerak ke kanan
-        if (arrowKey == 100 && (map[koorCharY][koorCharX+1] == 1 || map[koorCharY][koorCharX+1] == 4) && koorCharY < panjangMap){
+        if (arrowKey == 100 && (map[koorCharY][koorCharX+1] == 1 ||
+                                map[koorCharY][koorCharX+1] == 2 ||
+                                map[koorCharY][koorCharX+1] == 3 ||
+                                map[koorCharY][koorCharX+1] == 6
+                                ) && koorCharY < panjangMap){
             koorCharX = koorCharX+1;
         }
         // Render
@@ -163,6 +196,7 @@ int main(){
         }
         //Random trap and enemy
         int characterPosition=map[koorCharY][koorCharX];
+        int i = rand() %4;
         if (characterPosition==2)
         {
             int probabilityFindEnemy;
@@ -171,8 +205,14 @@ int main(){
 
             if (probabilityFindEnemy<3)
             {
-                cout << "u find the enemy" << endl
-                << "ready to fight bruh !!" << endl;
+                setcolor(4);
+                cout 
+                << "======================" << endl
+                << "u find the enemy" << endl
+                << "ready to fight bruh !!" << endl
+                << "vs " << character[i].name << endl
+                << "======================" << endl;
+                setcolor(7);
             }
         }
         if (characterPosition==3 || characterPosition==6)
@@ -181,10 +221,16 @@ int main(){
             srand (time(NULL));
             probabilityFoundItem = rand() %10;
 
-            if (probabilityFoundItem<3)
+            if (probabilityFoundItem<2)
             {
-                cout << "u found item" << endl
-                << "item will automatically saved" << endl;
+                setcolor(4);
+                cout 
+                << "==============================" << endl
+                << "u found item" << endl
+                << "item will automatically saved" << endl
+                << item[i].name << " stored at bag" << endl
+                << "==============================" << endl;
+                setcolor(7);
             }
         }
     }
