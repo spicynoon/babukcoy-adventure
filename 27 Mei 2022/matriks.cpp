@@ -26,6 +26,7 @@ struct item_t
     int attackBuffeffect;
 };
 
+//function colored output
 void setcolor(unsigned short color)
 {
 HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -120,11 +121,36 @@ int main(){
     
     int koorCharY = 0;
     int koorCharX = 0;
+
     
     cout << "'mobile legend x pokemon' lite game" << endl;
     setcolor(4);
-    cout << "ready to start !!" << endl;
+    cout << "===========================" << endl;
+    for (int i = 0; i < 5; i++)
+    {
+        cout << i+1 << ". " << character[i].name << endl;
+    }
+    cout << "===========================" << endl;
+    cout << "choose ur character : ";
+    
+    // menyimpan nilai karakter yang dipilih
+    int selectedCharacter;
+    cin >> selectedCharacter;
+    selectedCharacter--;
+
+    // properti my character
+    string myCharacter = character[selectedCharacter].name;
+    string roleMyCharacter = character[selectedCharacter].role;
+    int hpMyCharacter = character[selectedCharacter].hp;
+    int damageMyCharacter = character[selectedCharacter].damage;
+    
+    // menampilkan karakter yang dipilih
+    cout << "u choose " << myCharacter << endl; 
     setcolor(7);
+
+    // game start
+    cout << "====================" << endl;
+    cout << "ready to start !!" << endl;
     cout << "u spawn at (" << koorCharY << ", " << koorCharX << ")" << endl
     << "use w,a,s,d to move" << endl;
     
@@ -182,6 +208,8 @@ int main(){
                                 ) && koorCharY < panjangMap){
             koorCharX = koorCharX+1;
         }
+        system ("CLS");
+
         // Render
         for(int y=0; y<lebarMap; y++){
             for(int x=0; x<panjangMap; x++){
@@ -194,6 +222,7 @@ int main(){
             }
             cout << endl;
         }
+
         //Random trap and enemy
         int characterPosition=map[koorCharY][koorCharX];
         int i = rand() %4;
@@ -203,6 +232,7 @@ int main(){
             srand (time(NULL));
             probabilityFindEnemy = rand() %15;
 
+            // kemungkinan bertemu musuh
             if (probabilityFindEnemy<3)
             {
                 setcolor(4);
@@ -210,26 +240,66 @@ int main(){
                 << "======================" << endl
                 << "u find the enemy" << endl
                 << "ready to fight bruh !!" << endl
-                << "vs " << character[i].name << endl
-                << "======================" << endl;
+                << "======================" << endl
+                << "fight (1) or run (2) : "; 
+                
+                int fightOrRun;
+                cin >> fightOrRun;
+                
+                // make decision bertarung atau kabur
+                if (fightOrRun == 1)
+                {
+                    cout 
+                    << "u will fight them !!" << endl
+                    << "ready to fight !!" << endl;
+                    setcolor(6);
+                    cout << myCharacter << " vs " << character[i].name << endl;
+                    setcolor(4);
+                }
+                else if (fightOrRun > 1)
+                {
+                    cout 
+                    << "run bestieee runnnn !!" << endl
+                    << "kukira adu mekanik ternyata panik" << endl;
+                    setcolor(6);
+                    cout << myCharacter << " run away" << endl;
+                }
                 setcolor(7);
             }
         }
+
+        //kemungkinan mendapat item 
         if (characterPosition==3 || characterPosition==6)
         {
             int probabilityFoundItem;
             srand (time(NULL));
             probabilityFoundItem = rand() %10;
+            
 
             if (probabilityFoundItem<2)
             {
                 setcolor(4);
                 cout 
                 << "==============================" << endl
-                << "u found item" << endl
-                << "item will automatically saved" << endl
-                << item[i].name << " stored at bag" << endl
-                << "==============================" << endl;
+                << "u found item " << item[i].name << endl
+                << "==============================" << endl
+                << "take it (1) or leave it (2) : ";
+                
+                int takeOrLeave;
+                cin >> takeOrLeave;
+                
+                // make decision bertarung atau kabur
+                if (takeOrLeave == 1)
+                {
+                    setcolor(6);
+                    cout 
+                    << item[i].name << " saved" << endl
+                    << "Type   : " << item[i].type << endl
+                    << "Armor  : " << item[i].armorBuffeffect << endl
+                    << "Damage : " << item[i].attackBuffeffect << endl;
+                    setcolor(7);
+                }
+                else if (takeOrLeave > 1)
                 setcolor(7);
             }
         }
