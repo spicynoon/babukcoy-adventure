@@ -10,10 +10,9 @@ using namespace std;
 #define KEY_LEFT 97
 #define KEY_RIGHT 100
 
-struct character_t
+struct character
 {
     string name;
-    string role;
     int hp;
     int damage;
 };
@@ -50,70 +49,20 @@ int main(){
     POSISI KARAKTER
     */
 
-    character_t character[] = {
-        {
-            "Alu",
-            "Fighter",
-            1200,
-            300
-        }, 
-        {
-            "Eudo",
-            "Mage",
-            800,
-            300
-        },
-        {
-            "Mino",
-            "Tank",
-            1700,
-            300
-        },
-        {
-            "Miya",
-            "Marksman",
-            1000,
-            300
-        },
-        {
-            "Ling",
-            "Assassin",
-            900,
-            300
-        },
+    character hero[] = {
+        {"Alu", 1200, 300}, 
+        {"Eudo", 800, 300},
+        {"Mino", 1700, 300},
+        {"Miya", 1000, 300},
+        {"Ling", 900, 300},
     };
 
     item_t item[] = {
-        {
-            "Tameng",
-            "Armor",
-            200,
-            5
-        }, 
-        {
-            "Kujang",
-            "Attack",
-            5,
-            125
-        },
-        {
-            "Zirah",
-            "Armor",
-            500,
-            10
-        },
-        {
-            "Keling",
-            "Attack",
-            0,
-            75,
-        },
-        {
-            "Trisula",
-            "Attack",
-            10,
-            250
-        },
+        {"Tameng", "Armor", 200, 5}, 
+        {"Kujang", "Attack", 5, 125},
+        {"Zirah", "Armor", 500, 10},
+        {"Keling", "Attack", 0, 75,},
+        {"Trisula", "Attack", 10, 250},
     };
 
     int panjangMap = 10;    //x
@@ -128,24 +77,23 @@ int main(){
     cout << "===========================" << endl;
     for (int i = 0; i < 5; i++)
     {
-        cout << i+1 << ". " << character[i].name << endl;
+        cout << i+1 << ". " << hero[i].name << endl;
     }
     cout << "===========================" << endl;
     cout << "choose ur character : ";
     
     // menyimpan nilai karakter yang dipilih
-    int selectedCharacter;
-    cin >> selectedCharacter;
-    selectedCharacter--;
+    int selected;
+    cin >> selected;
+    selected--;
 
     // properti my character
-    string myCharacter = character[selectedCharacter].name;
-    string roleMyCharacter = character[selectedCharacter].role;
-    int hpMyCharacter = character[selectedCharacter].hp;
-    int damageMyCharacter = character[selectedCharacter].damage;
+    // string myCharacter = character[selectedCharacter].name;
+    // int hpMyCharacter = character[selectedCharacter].hp;
+    // int damageMyCharacter = character[selectedCharacter].damage;
     
     // menampilkan karakter yang dipilih
-    cout << "u choose " << myCharacter << endl; 
+    cout << "u choose " << hero[selected].name << endl; 
     setcolor(7);
 
     // game start
@@ -253,7 +201,7 @@ int main(){
                     << "u will fight them !!" << endl
                     << "ready to fight !!" << endl;
                     setcolor(6);
-                    cout << myCharacter << " vs " << character[i].name << endl;
+                    cout << hero[selected].name << " vs " << hero[i].name << endl;
                     setcolor(4);
                 }
                 else if (fightOrRun > 1)
@@ -262,7 +210,7 @@ int main(){
                     << "run bestieee runnnn !!" << endl
                     << "kukira adu mekanik ternyata panik" << endl;
                     setcolor(6);
-                    cout << myCharacter << " run away" << endl;
+                    cout << hero[selected].name << " run away" << endl;
                 }
                 setcolor(7);
             }
@@ -274,7 +222,6 @@ int main(){
             int probabilityFoundItem;
             srand (time(NULL));
             probabilityFoundItem = rand() %10;
-            
 
             if (probabilityFoundItem<2)
             {
