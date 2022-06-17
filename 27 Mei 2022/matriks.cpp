@@ -15,19 +15,13 @@ struct character
     string name;
     int hp;
     int damage;
-    
-    // struct hero
-    // {
-    //     // menangkap monster 
-    // };
-    
-    // struct monsters
-    // {
-    //     // ditangkap oleh hero (jadi pet buat ngebantu fight)
-    // };
 
     void basicAttack(character *hit){
-        cout << "as" << endl;
+        int hpFrom = hit->hp;
+		cout << name << " attacking " << hit->name << " ! " << endl;
+		hit->hp = hit->hp - rand() %damage;
+		cout << hit->name << "'s hp drop from " 
+        << hpFrom << " to " << hit->hp << endl;
     }
 };
 
@@ -225,8 +219,12 @@ int main(){
                     << "ready to fight !!" << endl;
                     setcolor(6);
                     cout << hero[selected].name << " vs " << hero[i].name << endl;
-                    hero[selected].basicAttack(&hero[i]);
-
+                    
+                    do
+                    {
+                        hero[selected].basicAttack(&hero[i]);
+                        hero[i].basicAttack(&hero[selected]);
+                    } while (hero[selected].hp == 0 || hero[i].hp ==0);
                     setcolor(4);
                 }
                 else if (fightOrRun > 1)
