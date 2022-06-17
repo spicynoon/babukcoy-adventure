@@ -15,9 +15,23 @@ struct character
     string name;
     int hp;
     int damage;
+    
+    // struct hero
+    // {
+    //     // menangkap monster 
+    // };
+    
+    // struct monsters
+    // {
+    //     // ditangkap oleh hero (jadi pet buat ngebantu fight)
+    // };
+
+    void basicAttack(character *hit){
+        cout << "as" << endl;
+    }
 };
 
-struct item_t
+struct equipment
 {
     string name;
     string type;
@@ -29,11 +43,11 @@ struct item_t
 void setcolor(unsigned short color)
 {
 HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
-
 SetConsoleTextAttribute(hCon,color);
 }
 
 int main(){
+    
     /*
     RULES
     1. lane (able)
@@ -57,7 +71,16 @@ int main(){
         {"Ling", 900, 300},
     };
 
-    item_t item[] = {
+    character monster[] = {
+        {"Goblin", 500, 80},
+        {"Mosswine", 480, 45},
+        {"Vespoid", 800, 120},
+        {"Cephadrome", 1200, 400},
+        {"Rathanos", 2000, 585},
+        {"Rathanias", 2000, 585}
+    };
+
+    equipment item[] = {
         {"Tameng", "Armor", 200, 5}, 
         {"Kujang", "Attack", 5, 125},
         {"Zirah", "Armor", 500, 10},
@@ -202,6 +225,8 @@ int main(){
                     << "ready to fight !!" << endl;
                     setcolor(6);
                     cout << hero[selected].name << " vs " << hero[i].name << endl;
+                    hero[selected].basicAttack(&hero[i]);
+
                     setcolor(4);
                 }
                 else if (fightOrRun > 1)
