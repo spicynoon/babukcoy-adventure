@@ -13,6 +13,13 @@ using namespace std;
 #define ENTER 13
 #define ESC 27
 
+// function colored output
+void setcolor(unsigned short color)
+{
+    HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hCon, color);
+}
+
 void header()
 {
     cout << "************************ " << endl;
@@ -20,6 +27,14 @@ void header()
     cout << "||  -Beat The Enemy-  ||" << endl;
     cout << "|| -and Win The Game- ||" << endl;
     cout << "************************ " << endl;
+    getch();
+    cout << "beat all enemies n win the game" << endl
+    << "u will die if u lose 3 times" << endl
+    << "find armor in '~' to increase ur stat" << endl
+    << "find heal potion in 'o' to heal ur hp" << endl;
+    getch();
+    getch();
+    system("CLS");
 };
 
 struct character
@@ -35,7 +50,7 @@ struct character
         int hpFrom = hit->hp;
 
         cout << dye::red(name) << " attacking " << dye::red(hit->name) << " ! " << endl;
-        hit->hp = hit->hp - (damage + rand() % damage);
+        hit->hp = hit->hp - rand() % damage;
         if (hit->hp <= 0 || hpFrom <= 0)
         {
             hit->hp = 0;
@@ -44,7 +59,6 @@ struct character
 
         cout << dye::red(hit->name) << "'s hp drop from "
              << dye::red(hpFrom) << " to " << dye::red(hit->hp) << endl;
-
     }
 
     void ultimate(character *skill, int ultiRemain)
@@ -64,11 +78,18 @@ struct character
                 skill->hp = 0;
                 hpFrom = 0;
             }
-            
+
             cout << dye::red(skill->name) << "'s hp drop from "
                  << dye::red(hpFrom) << " to " << dye::red(skill->hp) << endl;
-
         }
+    }
+
+    void dead(character *mati)
+    {
+        setcolor(4);
+        cout << "sadly, u die" << endl
+             << "GAME OVER !!" << endl;
+        setcolor(7);
     }
 };
 
@@ -81,12 +102,6 @@ struct equipment
     int healEffect;
 };
 
-// function colored output
-void setcolor(unsigned short color)
-{
-    HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hCon, color);
-}
 
 int main()
 {
@@ -139,6 +154,7 @@ int main()
     int lebarMap = 10;   // y
     int koorCharY = 0;
     int koorCharX = 1;
+    int lifeRemain = 3;
 
     int map[lebarMap][panjangMap] = {
         {7, 1, 1, 1, 1, 1, 2, 2, 1, 6, 4, 7},
@@ -154,18 +170,21 @@ int main()
         {7, 1, 1, 5, 5, 5, 5, 2, 3, 6, 6, 7}};
 
     setcolor(4);
+
     header();
 
     for (int i = 0; i < 5; i++)
     {
         cout << i + 1 << ". " << hero[i].name << endl;
     }
+    
     setcolor(5);
     cout << endl
          << "choose ur character : ";
 
     // menyimpan nilai karakter yang dipilih
     int selected;
+    int x = 0;
     cin >> selected;
     selected--;
 
@@ -179,6 +198,7 @@ int main()
     cout << "prepare yourself !!" << endl;
     cout << "your adventure is ready to " + dye::red("BEGIN") + "!!" << endl;
     cout << "u spawn at (" << koorCharY << ", " << koorCharX << ")" << endl;
+    getch();
 
     int arrowKey = 0;
     while (1)
@@ -213,6 +233,9 @@ int main()
         // enter
         if (arrowKey == ENTER)
         {
+            cout << "********************************** " << endl
+                 << "||            status            ||" << endl
+                 << "********************************** " << endl;
             cout << "name           : " << hero[selected].name << endl;
             cout << "hp             : " << hero[selected].hp << endl;
             cout << "basic damage   : " << hero[selected].damage << endl;
@@ -354,6 +377,14 @@ int main()
                             hero[selected].hp = 0;
                             cout << dye::white_on_blue("u lose !!") << endl;
 
+                            lifeRemain--;
+                            cout << "u have " << lifeRemain << " lives left" << endl;
+
+                            if (lifeRemain <= 0)
+                            {
+                                hero[selected].dead(&hero[selected]);
+                                exit(1);
+                            }
                             break;
                         }
                         if (hero[i].hp <= 0)
@@ -409,7 +440,7 @@ int main()
                         << "Armor  : " << item[i].armorBuffeffect << endl
                         << "Damage : " << item[i].attackBuffeffect << endl;
                     setcolor(7);
-                    
+
                     // armor buff
                     cout << "ur armor buffed from " << dye::red(hero[selected].armor) << " to ";
                     hero[selected].armor = hero[selected].armor + item[i].armorBuffeffect;
@@ -440,7 +471,7 @@ int main()
                     << "u found potion " << potion[i].name << endl
                     << "==============================" << endl
                     << "take it (1) or leave it (2) : ";
-                
+
                 int takeOrLeave;
                 cin >> takeOrLeave;
 
